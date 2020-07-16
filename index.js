@@ -73,7 +73,7 @@ function fillForm() {
 	    await baby.click();
 	    await wait(2000);
 	    let searchFlight = await driver.findElements(webdriver.By.css(".IBESearchButton"));
-	    await searchFlight.click();
+	    await searchFlight[0].click();
 	    resolve(1);
 	});
 }
