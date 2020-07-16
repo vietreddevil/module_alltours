@@ -33,7 +33,8 @@ function wait(ms) {
 	})
 }
 
-function fillForm() {
+// module 1
+function module1FillForm() {
 	return new Promise(async (resolve, reject) => {
 		// chọn bay khứ hồi
 		let flightType = await driver.findElements(webdriver.By.css(".IBERadioGroup.IBEProcessed label"));
@@ -65,11 +66,11 @@ function fillForm() {
 		let pickDateComeBack = await driver.findElements(webdriver.By.css("#ui-datepicker-div td:not(.ui-state-disabled)"));
 		let randomDatesComeback = await getArrivedPlace(pickDateComeBack.length); 
 		await pickDateComeBack[randomDatesComeback].click(); 
-		let adult = await driver.findElement(By.xpath("//select[@id='IBEAldultSelect']//option[contains(text(),'7')]"))
+		let adult = await driver.findElement(By.xpath("//select[@id='IBEAldultSelect']//option[contains(text(),'2')]"))
     	await adult.click();
-    	let child = await driver.findElement(By.xpath("//select[@id='IBEChildSelect']//option[contains(text(),'2')]"))
+    	let child = await driver.findElement(By.xpath("//select[@id='IBEChildSelect']//option[contains(text(),'1')]"))
 	    await child.click();
-	    let baby = await driver.findElement(By.xpath("//select[@id='IBEInfantSelect']//option[contains(text(),'2')]"))
+	    let baby = await driver.findElement(By.xpath("//select[@id='IBEInfantSelect']//option[contains(text(),'0')]"))
 	    await baby.click();
 	    await wait(2000);
 	    let searchFlight = await driver.findElements(webdriver.By.css(".IBESearchButton"));
@@ -81,12 +82,59 @@ function fillForm() {
 function module1() {
     return new Promise(async (resolve, reject) => {
         let _openPage = await openPage();
-        let _fillForm = await fillForm();
+        let _fillForm = await module1FillForm();
     });
 }
+// end module 1
 
+// module 2
+function module2FillForm() {
+	return new Promise(async (resolve, reject) => {
+		//mở list địa điểm
+		let placesInput = await driver.findElements(webdriver.By.css('.IBESearchAutoCompleteWrapper input'));
+		await placesInput[0].click();
+		// random địa điểm đi
+		let places = await driver.
+		findElements(webdriver.By.css('#IBESelectAirPortWrapper ul#IBESelectAirPortRegion ul li'));
+		let randomPlace = Math.floor(Math.random() * Number(places.length));
+		await places[randomPlace].click();
+		//random địa điểm đến
+		places = await driver.
+		findElements(webdriver.By.css('#IBESelectAirPortWrapper ul#IBESelectAirPortRegion ul li'));
+		let randomToPlace = await getArrivedPlace(places.length);
+		while (randomToPlace == randomPlace) {
+			randomToPlace = await getArrivedPlace(places.length);
+		}
+		await places[randomToPlace].click();
+		//chọn ngày giờ
+		let openDatePickers = await driver.findElements(webdriver.By.css(".hasDatepicker"));
+		await openDatePickers[0].click(); 
+		await wait(2000);
+		let pickDate = await driver.findElements(webdriver.By.css(".ui-datepicker-calendar td:not(.ui-state-disabled)"));
+		let randomDates = Math.floor(Math.random() * Number(pickDate.length));
+		await pickDate[randomDates].click();
+		let adult = await driver.findElement(By.xpath("//select[@id='IBEAldultSelect']//option[contains(text(),'2')]"))
+    	await adult.click();
+    	let child = await driver.findElement(By.xpath("//select[@id='IBEChildSelect']//option[contains(text(),'1')]"))
+	    await child.click();
+	    let baby = await driver.findElement(By.xpath("//select[@id='IBEInfantSelect']//option[contains(text(),'0')]"))
+	    await baby.click();
+	    await wait(2000);
+	    let searchFlight = await driver.findElements(webdriver.By.css(".IBESearchButton"));
+	    await searchFlight[0].click();
+	    resolve(1);
+	});
+}
+function module2() {
+    return new Promise(async (resolve, reject) => {
+        let _openPage = await openPage();
+        let _fillForm = await module2FillForm();
+    });
+}
+// end module 2
 async function start() {
-    await module1();
+    // await module1();
+    await module2();
 };
 
 start();
