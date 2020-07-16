@@ -53,7 +53,7 @@ function fillForm() {
 		while (randomToPlace == randomPlace) {
 			randomToPlace = await getArrivedPlace(places.length);
 		}
-		await places[randomPlace].click();
+		await places[randomToPlace].click();
 		//chọn ngày giờ
 		let openDatePickers = await driver.findElements(webdriver.By.css(".hasDatepicker"));
 		await openDatePickers[0].click(); 
