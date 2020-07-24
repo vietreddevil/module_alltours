@@ -13,6 +13,7 @@
     "chromedriver": "^83.0.1",
     "jasmine": "^3.5.0",
     "prompt-async": "^0.9.9",
-    "selenium-webdriver": "^4.0.0-alpha.7"
+    "selenium-webdriver": "^4.0.0-alpha.7",
+    "xlsx": "^0.16.4"
   }
 }
