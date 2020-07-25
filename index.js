@@ -87,6 +87,12 @@ function module1FillForm(from, to, adult_num, child_num, baby_num) {
         let baby = await driver.findElement(By.xpath("//select[@id='IBEInfantSelect']//option[contains(text(),'" + baby_num + "')]"))
         await baby.click();
         await wait(2000);
+        let chat = await driver.findElements(webdriver.By.css(".vgc_ic.vgc_client_close_polls"));
+        if(chat.length > 0) {
+            await chat[0].click();
+            await wait(2000)
+        }
+            
         let searchFlight = await driver.findElements(webdriver.By.css(".IBESearchButton"));
         await searchFlight[0].click();
         await driver.wait(until.elementLocated(By.css('#lbtSortByAirlines'), 10000));
@@ -152,7 +158,15 @@ function module1_1chieuFillForm(from, to, adult_num, child_num, baby_num) {
         await child.click();
         let baby = await driver.findElement(By.xpath("//select[@id='IBEInfantSelect']//option[contains(text(),'" + baby_num + "')]"))
         await baby.click();
-        await wait(2000);
+        await wait(2000); 
+        let chat = await driver.findElements(webdriver.By.css(".vgc_ic.vgc_client_close_polls"));
+        if(chat.length > 0) {
+            await chat[0].click();
+            await wait(2000)
+        }
+        
+    //
+
         let searchFlight = await driver.findElements(webdriver.By.css(".IBESearchButton"));
         await searchFlight[0].click();
         await driver.wait(until.elementLocated(By.css('#lbtSortByAirlines'), 10000));
@@ -178,9 +192,9 @@ function checkModule1Error() {
                     if (e) { console.log(e) };
                 });
                 await wait(2000);
-                await openPage();
-                // await module1_1chieuFillForm(2, 8, 1, 0, 0);
-                await module1FillForm(2, 8, 1, 0, 0);
+                // await openPage();
+                await module1_1chieuFillForm(2, 8, 1, 0, 0);
+                // await module1FillForm(2, 8, 1, 0, 0);
                 resolve(1);
             }
         );
@@ -367,8 +381,8 @@ function takeScreenshot() {
 
 // baggagePickOption
 async function start() {
-    await module1();
-    // await module1_1chieu();
+    // await module1();
+    await module1_1chieu();
     await checkModule1Error();
     await module2();
     await module3();
