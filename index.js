@@ -4,6 +4,8 @@ const chrome = require('selenium-webdriver/chrome');
 const chromedriver = require('chromedriver');
 const prompt = require("prompt-async");
 const XLSX = require('xlsx');
+const firefox = require('selenium-webdriver/firefox');
+
 
 chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
 const driver = new webdriver.Builder().forBrowser('chrome').build();
@@ -76,10 +78,10 @@ function module1FillForm(from, to, adult_num, child_num, baby_num) {
         await wait(2000);
         let pickDate = await driver.findElements(webdriver.By.css(".ui-datepicker-calendar td:not(.ui-state-disabled)"));
         let randomDates = Math.floor(Math.random() * Number(pickDate.length));
-        await pickDate[5].click();
+        await pickDate[1].click();
         await wait(2000);
         let pickDateComeBack = await driver.findElements(webdriver.By.css("#ui-datepicker-div td:not(.ui-state-disabled)"));
-        await pickDateComeBack[7].click();
+        await pickDateComeBack[3].click();
         let adult = await driver.findElement(By.xpath("//select[@id='IBEAldultSelect']//option[contains(text(),'" + adult_num + "')]"))
         await adult.click();
         let child = await driver.findElement(By.xpath("//select[@id='IBEChildSelect']//option[contains(text(),'" + child_num + "')]"))
@@ -193,8 +195,8 @@ function checkModule1Error() {
                 });
                 await wait(2000);
                 // await openPage();
-                await module1_1chieuFillForm(2, 8, 1, 0, 0);
-                // await module1FillForm(2, 8, 1, 0, 0);
+                // await module1_1chieuFillForm(2, 8, 1, 0, 0);
+                await module1FillForm(2, 8, 1, 0, 1);
                 resolve(1);
             }
         );
@@ -224,7 +226,11 @@ function module2() {
         let sortByPriceType = await driver.findElements(webdriver.By.css('#IBEPriceType .BoxContent label'));
         await sortByPriceType[1].click();
         await wait(2000);
-
+        let chat = await driver.findElements(webdriver.By.css(".vgc_ic.vgc_client_close_polls"));
+        if(chat.length > 0) {
+            await chat[0].click();
+            await wait(2000)
+        }
         let choiceBrand = await driver.findElements(webdriver.By.css('.IBEHasCheckbox.ckbIBEListAirlines label'));
         if (choiceBrand.length < 2) {
             console.log("Không có chuyến bay nào");
@@ -337,6 +343,18 @@ function module3() {
         for await (let [index, passenger] of passengersLastName.entries()) {
             await passenger.sendKeys(sheet1[index].last_name);
         }
+        let babyBirths = await driver.findElements(webdriver.By.css('.PersionBirthday'));
+        if(babyBirths.length > 0) {
+            for await (let [index, babyBirth] of babyBirths.entries()) {
+                await babyBirth.click();
+                let next = await driver.findElements(webdriver.By.css('.ui-datepicker-next.ui-corner-all'));
+                await next[0].click();
+                await wait(2000);
+                let pickDate = await driver.findElements(webdriver.By.css('.ui-datepicker-calendar td:not(.ui-state-disabled)'));
+                await pickDate[pickDate.length - 1].click();
+            } // 
+        }
+
         let contactName = await driver.findElements(webdriver.By.css('#txtContactName'));
         await contactName[0].sendKeys(sheet1[0].interactor_name);
         await wait(1000);
@@ -359,6 +377,24 @@ function module3() {
                 await baggageOptions[index * 7 + 1].click();
             }
         }
+        let checkBox = await driver.findElements(webdriver.By.css('.Header.IBEHasCheckbox label'));
+        await checkBox[0].click();
+        let company = await driver.findElements(webdriver.By.css('#txtCompanyName'));
+        await company[0].sendKeys(sheet1[0].company)
+        await wait(1000);
+        let txtCompanyAddress = await driver.findElements(webdriver.By.css('#txtCompanyAddress'));
+        await txtCompanyAddress[0].sendKeys(sheet1[0].address)
+        await wait(1000);
+        let txtCompanyCity = await driver.findElements(webdriver.By.css('#txtCompanyCity'));
+        await txtCompanyCity[0].sendKeys(sheet1[0].city)
+        await wait(1000);
+        let txtCompanyTaxCode = await driver.findElements(webdriver.By.css('#txtCompanyTaxCode'));
+        await txtCompanyTaxCode[0].sendKeys(sheet1[0].vat)
+        await wait(1000);
+        let txtCompanyStaffName = await driver.findElements(webdriver.By.css('#txtCompanyStaffName'));
+        await txtCompanyStaffName[0].sendKeys(sheet1[0].reciever)
+        await wait(1000);
+
         btnBook = await driver.findElements(webdriver.By.css('#btnBook'));
         await btnBook[0].click();
         resolve(1);
@@ -381,8 +417,8 @@ function takeScreenshot() {
 
 // baggagePickOption
 async function start() {
-    // await module1();
-    await module1_1chieu();
+    await module1();
+    // await module1_1chieu();
     await checkModule1Error();
     await module2();
     await module3();
