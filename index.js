@@ -166,8 +166,7 @@ function module1_1chieuFillForm(from, to, adult_num, child_num, baby_num) {
             await chat[0].click();
             await wait(2000)
         }
-        
-    //
+
 
         let searchFlight = await driver.findElements(webdriver.By.css(".IBESearchButton"));
         await searchFlight[0].click();
@@ -195,8 +194,8 @@ function checkModule1Error() {
                 });
                 await wait(2000);
                 // await openPage();
-                // await module1_1chieuFillForm(2, 8, 1, 0, 0);
-                await module1FillForm(2, 8, 1, 0, 1);
+                await module1_1chieuFillForm(2, 8, 1, 0, 0);
+                // await module1FillForm(2, 8, 1, 0, 1);
                 resolve(1);
             }
         );
@@ -378,8 +377,17 @@ function module3() {
             }
         }
         let checkBox = await driver.findElements(webdriver.By.css('.Header.IBEHasCheckbox label'));
+        let chat = await driver.findElements(webdriver.By.css("#panel_chat_vatgia #vgc_bc_off #vgc_off_close"));
+        if(chat.length > 0) {
+            await chat[0].click();
+            await wait(2000)
+        }
         await checkBox[0].click();
+        await wait(2000);
         let company = await driver.findElements(webdriver.By.css('#txtCompanyName'));
+        console.log('company.length')
+        console.log(company.length)
+        await company[0].click()
         await company[0].sendKeys(sheet1[0].company)
         await wait(1000);
         let txtCompanyAddress = await driver.findElements(webdriver.By.css('#txtCompanyAddress'));
@@ -417,8 +425,8 @@ function takeScreenshot() {
 
 // baggagePickOption
 async function start() {
-    await module1();
-    // await module1_1chieu();
+    // await module1();
+    await module1_1chieu();
     await checkModule1Error();
     await module2();
     await module3();
