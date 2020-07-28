@@ -194,8 +194,8 @@ function checkModule1Error() {
                 });
                 await wait(2000);
                 // await openPage();
-                await module1_1chieuFillForm(2, 8, 1, 0, 0);
-                // await module1FillForm(2, 8, 1, 0, 1);
+                await module1_1chieuFillForm(0, 1, 1, 1, 1);
+                // await module1FillForm(0, 1, 1, 0, 1);
                 resolve(1);
             }
         );
@@ -346,7 +346,8 @@ function module3() {
         if(babyBirths.length > 0) {
             for await (let [index, babyBirth] of babyBirths.entries()) {
                 await babyBirth.click();
-                let next = await driver.findElements(webdriver.By.css('.ui-datepicker-next.ui-corner-all'));
+                await wait(1000);
+                let next = await driver.findElements(webdriver.By.css('.ui-datepicker-next.ui-corner-all:not(.ui-state-disabled)'));
                 await next[0].click();
                 await wait(2000);
                 let pickDate = await driver.findElements(webdriver.By.css('.ui-datepicker-calendar td:not(.ui-state-disabled)'));
@@ -371,10 +372,17 @@ function module3() {
         await wait(1000);
         let baggages = await driver.findElements(webdriver.By.css('.baggagePickOption'));
         if (baggages.length > 0) {
-            for await (let [index, passenger] of passengersFirstName.entries()) {
+            let totalBaggages = Math.floor(baggages.length / 7);
+            let _arr = [];
+            for(let i = 0; i < totalBaggages; i++) {
+                _arr.push('1');
+            } 
+            await wait(2000);
+            for await (let [index, value] of _arr.entries()) {
                 let baggageOptions = await driver.findElements(webdriver.By.css('.baggagePickOption'));
                 await baggageOptions[index * 7 + 1].click();
             }
+
         }
         let checkBox = await driver.findElements(webdriver.By.css('.Header.IBEHasCheckbox label'));
         let chat = await driver.findElements(webdriver.By.css("#panel_chat_vatgia #vgc_bc_off #vgc_off_close"));
