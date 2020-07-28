@@ -128,7 +128,7 @@ function module1_1chieuFillForm(from, to, adult_num, child_num, baby_num) {
         } else {
             randomPlace = from;
         }
-        await wait(1000);
+        await wait(2000);
         await places[randomPlace].click();
         //random địa điểm đến
         places = await driver.
@@ -139,7 +139,7 @@ function module1_1chieuFillForm(from, to, adult_num, child_num, baby_num) {
         } else {
             randomToPlace = to;
         }
-        await wait(1000);
+        await wait(2000);
         while (randomToPlace == randomPlace) {
             console.log('Bạn không được chọn điểm đến và điểm đi giống nhau.');
             console.log('Đang chọn lại')
