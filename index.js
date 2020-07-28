@@ -49,7 +49,7 @@ function module1FillForm(from, to, adult_num, child_num, baby_num) {
         let places = await driver.
         findElements(webdriver.By.css('#IBESelectAirPortWrapper ul#IBESelectAirPortRegion ul li'));
         let randomPlace;
-        if (from == "") {
+        if (from == -1) {
             randomPlace = Math.floor(Math.random() * Number(places.length))
         } else {
             randomPlace = from;
@@ -60,7 +60,7 @@ function module1FillForm(from, to, adult_num, child_num, baby_num) {
         places = await driver.
         findElements(webdriver.By.css('#IBESelectAirPortWrapper ul#IBESelectAirPortRegion ul li'));
         let randomToPlace;
-        if (to == "") {
+        if (to == -1) {
             randomToPlace = await getArrivedPlace(places.length)
         } else {
             randomToPlace = to;
@@ -106,7 +106,7 @@ function module1FillForm(from, to, adult_num, child_num, baby_num) {
 function module1() {
     return new Promise(async (resolve, reject) => {
         let _openPage = await openPage();
-        let _fillForm = await module1FillForm('', '', 7, 7, 0);
+        let _fillForm = await module1FillForm(-1, -1, 7, 7, 0);
         await wait(2000);
         resolve(1);
     });
@@ -123,18 +123,24 @@ function module1_1chieuFillForm(from, to, adult_num, child_num, baby_num) {
         let places = await driver.
         findElements(webdriver.By.css('#IBESelectAirPortWrapper ul#IBESelectAirPortRegion ul li'));
         let randomPlace;
-        if (from == "") {
+        console.log('from');
+        console.log(from);
+        console.log(from == "");
+
+        if (from == -1) {
             randomPlace = Math.floor(Math.random() * Number(places.length))
         } else {
             randomPlace = from;
         }
-        await wait(2000);
+        console.log('randomPlace')
+        console.log(randomPlace)
+        await wait(3000);
         await places[randomPlace].click();
         //random địa điểm đến
         places = await driver.
         findElements(webdriver.By.css('#IBESelectAirPortWrapper ul#IBESelectAirPortRegion ul li'));
         let randomToPlace;
-        if (to == "") {
+        if (to == -1) {
             randomToPlace = await getArrivedPlace(places.length)
         } else {
             randomToPlace = to;
@@ -179,7 +185,7 @@ function module1_1chieuFillForm(from, to, adult_num, child_num, baby_num) {
 function module1_1chieu() {
     return new Promise(async (resolve, reject) => {
         await openPage();
-        await module1_1chieuFillForm('', '', 7, 7, 0);
+        await module1_1chieuFillForm(-1, -1, 7, 7, 0);
         resolve(1)
     });
 }
@@ -282,6 +288,8 @@ function saveInfo() {
         let passengerANum = await driver.findElements(webdriver.By.css('.TablePrice tbody tr:nth-child(2) td:nth-child(2)'));
         let passengerCNum = await driver.findElements(webdriver.By.css('.TablePrice tbody tr:nth-child(3) td:nth-child(2)'));
         let passengerBNum = await driver.findElements(webdriver.By.css('.TablePrice tbody tr:nth-child(4) td:nth-child(2)'));
+        let prices = await driver.findElements(webdriver.By.css('.FlightDetail.HasData .Price'));
+        //
         let flnums = await driver.findElements(webdriver.By.css('.FltNum b'));
         let infos = [];
         for await (let [index, flnum] of flnums.entries()) {
@@ -294,6 +302,7 @@ function saveInfo() {
             let child = await passengerCNum[index].getAttribute('innerHTML');
             let baby = await passengerBNum[index].getAttribute('innerHTML');
             let flnum = await flnums[index].getAttribute('innerHTML');
+            let price = await prices[index].getAttribute('innerHTML');
             let info = {
                 "Nơi đi": departCity.trim(),
                 "Nơi đến": arrivalCity.trim(),
@@ -303,7 +312,8 @@ function saveInfo() {
                 "Người lớn": adult.replace(/\\n/g, '').trim(),
                 "Trẻ em": child.replace(/\\n/g, '').trim(),
                 "Em bé": baby.replace(/\\n/g, '').trim(),
-                "Loại ghế": seat
+                "Loại ghế": seat,
+                "Giá": price
             };
             infos.push(info);
         }
@@ -409,7 +419,10 @@ function module3() {
         await wait(1000);
         let txtCompanyStaffName = await driver.findElements(webdriver.By.css('#txtCompanyStaffName'));
         await txtCompanyStaffName[0].sendKeys(sheet1[0].reciever)
-        await wait(1000);
+        await wait(2000);
+
+        let lblBasketGrandTotal = await driver.findElements(webdriver.By.css('#lblBasketGrandTotal'));
+        console.log('tong gia: ' + lblBasketGrandTotal[0].getAttribute('innerHTML') + ' vnd')
 
         btnBook = await driver.findElements(webdriver.By.css('#btnBook'));
         await btnBook[0].click();
