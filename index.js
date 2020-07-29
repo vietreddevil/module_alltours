@@ -41,9 +41,11 @@ function module1FillForm(from, to, adult_num, child_num, baby_num) {
     return new Promise(async (resolve, reject) => {
         // chọn bay khứ hồi
         let flightType = await driver.findElements(webdriver.By.css(".IBERadioGroup.IBEProcessed label"));
+        await wait(1000);
         await flightType[0].click();
         //mở list địa điểm
         let placesInput = await driver.findElements(webdriver.By.css('.IBESearchAutoCompleteWrapper input'));
+        await wait(1000);
         await placesInput[0].click();
         // random địa điểm đi
         let places = await driver.
@@ -74,19 +76,25 @@ function module1FillForm(from, to, adult_num, child_num, baby_num) {
         await places[randomToPlace].click();
         //chọn ngày giờ
         let openDatePickers = await driver.findElements(webdriver.By.css(".hasDatepicker"));
+        await wait(1000);
         await openDatePickers[0].click();
         await wait(2000);
         let pickDate = await driver.findElements(webdriver.By.css(".ui-datepicker-calendar td:not(.ui-state-disabled)"));
+        await wait(1000);
         let randomDates = Math.floor(Math.random() * Number(pickDate.length));
         await pickDate[1].click();
         await wait(2000);
         let pickDateComeBack = await driver.findElements(webdriver.By.css("#ui-datepicker-div td:not(.ui-state-disabled)"));
+        await wait(1000);
         await pickDateComeBack[3].click();
         let adult = await driver.findElement(By.xpath("//select[@id='IBEAldultSelect']//option[contains(text(),'" + adult_num + "')]"))
+        await wait(1000);
         await adult.click();
         let child = await driver.findElement(By.xpath("//select[@id='IBEChildSelect']//option[contains(text(),'" + child_num + "')]"))
+        await wait(1000);
         await child.click();
         let baby = await driver.findElement(By.xpath("//select[@id='IBEInfantSelect']//option[contains(text(),'" + baby_num + "')]"))
+        await wait(1000);
         await baby.click();
         await wait(2000);
         let chat = await driver.findElements(webdriver.By.css(".vgc_ic.vgc_client_close_polls"));
@@ -96,6 +104,7 @@ function module1FillForm(from, to, adult_num, child_num, baby_num) {
         }
             
         let searchFlight = await driver.findElements(webdriver.By.css(".IBESearchButton"));
+        await wait(1000);
         await searchFlight[0].click();
         await driver.wait(until.elementLocated(By.css('#lbtSortByAirlines'), 10000));
         await wait(2000);
@@ -118,6 +127,7 @@ function module1_1chieuFillForm(from, to, adult_num, child_num, baby_num) {
     return new Promise(async (resolve, reject) => {
         //mở list địa điểm
         let placesInput = await driver.findElements(webdriver.By.css('.IBESearchAutoCompleteWrapper input'));
+        await wait(2000);
         await placesInput[0].click();
         // random địa điểm đi
         let places = await driver.
@@ -155,19 +165,25 @@ function module1_1chieuFillForm(from, to, adult_num, child_num, baby_num) {
         await places[randomToPlace].click();
         //chọn ngày giờ
         let openDatePickers = await driver.findElements(webdriver.By.css(".hasDatepicker"));
+        await wait(1000);
         await openDatePickers[0].click();
         await wait(2000);
         let pickDate = await driver.findElements(webdriver.By.css(".ui-datepicker-calendar td:not(.ui-state-disabled)"));
-        let randomDates = Math.floor(Math.random() * Number(pickDate.length));
+        let randomDates = Math.floor(Math.random() * Number(pickDate.length)); 
+        await wait(1000);
         await pickDate[2].click();
         let adult = await driver.findElement(By.xpath("//select[@id='IBEAldultSelect']//option[contains(text(),'" + adult_num + "')]"))
+        await wait(1000);
         await adult.click();
         let child = await driver.findElement(By.xpath("//select[@id='IBEChildSelect']//option[contains(text(),'" + child_num + "')]"))
+        await wait(1000);
         await child.click();
         let baby = await driver.findElement(By.xpath("//select[@id='IBEInfantSelect']//option[contains(text(),'" + baby_num + "')]"))
+        await wait(1000);
         await baby.click();
         await wait(2000); 
         let chat = await driver.findElements(webdriver.By.css(".vgc_ic.vgc_client_close_polls"));
+        await wait(1000);
         if(chat.length > 0) {
             await chat[0].click();
             await wait(2000)
@@ -175,6 +191,7 @@ function module1_1chieuFillForm(from, to, adult_num, child_num, baby_num) {
 
 
         let searchFlight = await driver.findElements(webdriver.By.css(".IBESearchButton"));
+        await wait(1000);
         await searchFlight[0].click();
         await driver.wait(until.elementLocated(By.css('#lbtSortByAirlines'), 10000));
         await wait(2000);
@@ -211,32 +228,40 @@ function checkModule1Error() {
 function module2() {
     return new Promise(async (resolve, reject) => {
         console.log('md2');
-        // let sortByBrand = await driver.findElements(webdriver.By.css('#lbtSortByAirlines'));
-        // await sortByBrand[0].click();
-        // await wait(2000);
-        // let sortByDepatureTime = await driver.findElements(webdriver.By.css('#lbtSortByDepatureTime'));
-        // await sortByDepatureTime[0].click();
-        // await wait(2000);
-        // let sortByArrivalTime = await driver.findElements(webdriver.By.css('#lbtSortByArrivalTime'));
-        // await sortByArrivalTime[0].click();
-        // await wait(2000);
-        // let sortByDuration = await driver.findElements(webdriver.By.css('#lbtSortByFlightDuration'));
-        // await sortByDuration[0].click();
-        // await wait(2000);
-        // let sortByPrice = await driver.findElements(webdriver.By.css('#IBEPriceType .BoxContent label'));
-        // await sortByPrice[0].click();
+        let sortByBrand = await driver.findElements(webdriver.By.css('#lbtSortByAirlines'));
+        await wait(1000);
+        await sortByBrand[0].click();
+        await wait(2000);
+        let sortByDepatureTime = await driver.findElements(webdriver.By.css('#lbtSortByDepatureTime'));
+        await wait(1000);
+        await sortByDepatureTime[0].click();
+        await wait(2000);
+        let sortByArrivalTime = await driver.findElements(webdriver.By.css('#lbtSortByArrivalTime'));
+        await wait(1000);
+        await sortByArrivalTime[0].click();
+        await wait(2000);
+        let sortByDuration = await driver.findElements(webdriver.By.css('#lbtSortByFlightDuration'));
+        await wait(1000);
+        await sortByDuration[0].click();
+        await wait(2000);
+        let sortByPrice = await driver.findElements(webdriver.By.css('#IBEPriceType .BoxContent label'));
+        await wait(1000);
+        await sortByPrice[0].click();
         await wait(2000);
 
         // lọc theo giá chưa gồm thuế
         let sortByPriceType = await driver.findElements(webdriver.By.css('#IBEPriceType .BoxContent label'));
+        await wait(1000);
         await sortByPriceType[1].click();
         await wait(2000);
         let chat = await driver.findElements(webdriver.By.css(".vgc_ic.vgc_client_close_polls"));
+        await wait(1000);
         if(chat.length > 0) {
             await chat[0].click();
             await wait(2000)
         }
         let choiceBrand = await driver.findElements(webdriver.By.css('.IBEHasCheckbox.ckbIBEListAirlines label'));
+        await wait(1000);
         if (choiceBrand.length < 2) {
             console.log("Không có chuyến bay nào");
             resolve(0);
@@ -260,14 +285,17 @@ function module2() {
                 await isHasVJ[0].click();
             } else {
                 choiceBrand = await driver.findElements(webdriver.By.css('.IBEHasCheckbox.ckbIBEListAirlines label'));
+        await wait(1000);
                 await choiceBrand[1].click();
             }
 
             await saveInfo();
             await wait(2000);
             let choiceFlight = await driver.findElements(webdriver.By.css('#IBEDOMDepartureFlight .FlightItem:not([style*="display: none"]) .IBESelectFlight'));
+        await wait(1000);
             await choiceFlight[0].click();
             let returnFlight = await driver.findElements(webdriver.By.css('#IBEDOMReturnFlight .FlightItem:not([style*="display: none"]) .IBESelectFlight'));
+        await wait(1000);
             if (returnFlight.length > 0) {
                 await returnFlight[0].click()
             }
@@ -345,42 +373,52 @@ function module3() {
         let sheet1 = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
         await driver.wait(until.elementLocated(By.css('#lblBasketGrandTotal'), 10000));
         let passengersFirstName = await driver.findElements(webdriver.By.css('.PersionFirstName'));
+        await wait(1000);
         for await (let [index, passenger] of passengersFirstName.entries()) {
             await passenger.sendKeys(sheet1[index].first_name);
         }
         let passengersLastName = await driver.findElements(webdriver.By.css('.PersionLastName'));
+        await wait(1000);
         for await (let [index, passenger] of passengersLastName.entries()) {
             await passenger.sendKeys(sheet1[index].last_name);
         }
         let babyBirths = await driver.findElements(webdriver.By.css('.PersionBirthday'));
+        await wait(1000);
         if(babyBirths.length > 0) {
             for await (let [index, babyBirth] of babyBirths.entries()) {
                 await babyBirth.click();
                 await wait(1000);
                 let next = await driver.findElements(webdriver.By.css('.ui-datepicker-next.ui-corner-all:not(.ui-state-disabled)'));
+        await wait(1000);
                 await next[0].click();
                 await wait(2000);
                 let pickDate = await driver.findElements(webdriver.By.css('.ui-datepicker-calendar td:not(.ui-state-disabled)'));
+        await wait(1000);
                 await pickDate[pickDate.length - 1].click();
             } // 
         }
 
         let contactName = await driver.findElements(webdriver.By.css('#txtContactName'));
+        await wait(1000);
         await contactName[0].sendKeys(sheet1[0].interactor_name);
         await wait(1000);
         let phoneNumber = await driver.findElements(webdriver.By.css('#txtPhoneNumber'));
+        await wait(1000);
         await phoneNumber[0].sendKeys(sheet1[0].phone);
         await wait(1000);
 
         //btnBook
         let btnBook = await driver.findElements(webdriver.By.css('#btnBook'));
+        await wait(1000);
         await btnBook[0].click();
         await wait(2000);
         await takeScreenshot();
         let email = await driver.findElements(webdriver.By.css('#txtEmail'));
+        await wait(1000);
         await email[0].sendKeys(sheet1[0].email);
         await wait(1000);
         let baggages = await driver.findElements(webdriver.By.css('.baggagePickOption'));
+        await wait(1000);
         if (baggages.length > 0) {
             let totalBaggages = Math.floor(baggages.length / 7);
             let _arr = [];
@@ -390,12 +428,14 @@ function module3() {
             await wait(2000);
             for await (let [index, value] of _arr.entries()) {
                 let baggageOptions = await driver.findElements(webdriver.By.css('.baggagePickOption'));
+                await wait(1000);
                 await baggageOptions[index * 7 + 1].click();
             }
 
         }
         let checkBox = await driver.findElements(webdriver.By.css('.Header.IBEHasCheckbox label'));
         let chat = await driver.findElements(webdriver.By.css("#panel_chat_vatgia #vgc_bc_off #vgc_off_close"));
+        await wait(1000);
         if(chat.length > 0) {
             await chat[0].click();
             await wait(2000)
@@ -403,28 +443,33 @@ function module3() {
         await checkBox[0].click();
         await wait(2000);
         let company = await driver.findElements(webdriver.By.css('#txtCompanyName'));
-        console.log('company.length')
-        console.log(company.length)
+        await wait(1000); 
         await company[0].click()
         await company[0].sendKeys(sheet1[0].company)
         await wait(1000);
         let txtCompanyAddress = await driver.findElements(webdriver.By.css('#txtCompanyAddress'));
+        await wait(1000);
         await txtCompanyAddress[0].sendKeys(sheet1[0].address)
         await wait(1000);
         let txtCompanyCity = await driver.findElements(webdriver.By.css('#txtCompanyCity'));
+        await wait(1000);
         await txtCompanyCity[0].sendKeys(sheet1[0].city)
         await wait(1000);
         let txtCompanyTaxCode = await driver.findElements(webdriver.By.css('#txtCompanyTaxCode'));
+        await wait(1000);
         await txtCompanyTaxCode[0].sendKeys(sheet1[0].vat)
         await wait(1000);
         let txtCompanyStaffName = await driver.findElements(webdriver.By.css('#txtCompanyStaffName'));
+        await wait(1000);
         await txtCompanyStaffName[0].sendKeys(sheet1[0].reciever)
         await wait(2000);
 
         let lblBasketGrandTotal = await driver.findElements(webdriver.By.css('#lblBasketGrandTotal'));
+        await wait(1000);
         console.log('tong gia: ' + lblBasketGrandTotal[0].getAttribute('innerHTML') + ' vnd')
 
         btnBook = await driver.findElements(webdriver.By.css('#btnBook'));
+        await wait(1000);
         await btnBook[0].click();
         resolve(1);
     });
