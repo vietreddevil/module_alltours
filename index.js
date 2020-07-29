@@ -74,7 +74,17 @@ function module1FillForm(from, to, adult_num, child_num, baby_num) {
         }
         console.log('chọn địa điểm thành công')
         await places[randomToPlace].click();
-        //chọn ngày giờ
+        await wait(1000);
+        //chọn ngày giờ 
+        let closeChat = await driver.findElements(webdriver.By.css(".vgc_ic.vgc_client_close_polls"));
+        
+        if(closeChat.length > 0) {
+            try {
+                await closeChat[0].click();
+            } catch(e) {}
+            await wait(2000)
+        }
+        
         let openDatePickers = await driver.findElements(webdriver.By.css(".hasDatepicker"));
         await wait(1000);
         await openDatePickers[0].click();
@@ -97,11 +107,6 @@ function module1FillForm(from, to, adult_num, child_num, baby_num) {
         await wait(1000);
         await baby.click();
         await wait(2000);
-        let chat = await driver.findElements(webdriver.By.css(".vgc_ic.vgc_client_close_polls"));
-        if(chat.length > 0) {
-            await chat[0].click();
-            await wait(2000)
-        }
             
         let searchFlight = await driver.findElements(webdriver.By.css(".IBESearchButton"));
         await wait(1000);
@@ -163,7 +168,16 @@ function module1_1chieuFillForm(from, to, adult_num, child_num, baby_num) {
         }
         // await places[randomToPlace].click();
         await places[randomToPlace].click();
-        //chọn ngày giờ
+        await wait(1000);
+        //chọn ngày giờ 
+        let closeChat = await driver.findElements(webdriver.By.css(".vgc_ic.vgc_client_close_polls"));
+        
+        if(closeChat.length > 0) {
+            try {
+                await closeChat[0].click();
+            } catch(e) {}
+            await wait(2000)
+        }
         let openDatePickers = await driver.findElements(webdriver.By.css(".hasDatepicker"));
         await wait(1000);
         await openDatePickers[0].click();
@@ -217,8 +231,8 @@ function checkModule1Error() {
                 });
                 await wait(2000);
                 // await openPage();
-                await module1_1chieuFillForm(0, 1, 1, 1, 1);
-                // await module1FillForm(0, 1, 1, 0, 1);
+                // await module1_1chieuFillForm(0, 1, 1, 1, 1);
+                await module1FillForm(0, 1, 1, 0, 1);
                 resolve(1);
             }
         );
@@ -491,8 +505,8 @@ function takeScreenshot() {
 
 // baggagePickOption
 async function start() {
-    // await module1();
-    await module1_1chieu();
+    await module1();
+    // await module1_1chieu();
     await checkModule1Error();
     await module2();
     await module3();
