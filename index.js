@@ -74,10 +74,9 @@ function module1FillForm(from, to, adult_num, child_num, baby_num) {
         }
         console.log('chọn địa điểm thành công')
         await places[randomToPlace].click();
-        await wait(1000);
+        await wait(3000);
         //chọn ngày giờ 
-        let closeChat = await driver.findElements(webdriver.By.css(".vgc_ic.vgc_client_close_polls"));
-        
+        let closeChat = await driver.findElements(webdriver.By.css(".vgc_ic.vgc_client_close_polls")); 
         if(closeChat.length > 0) {
             try {
                 await closeChat[0].click();
@@ -92,7 +91,18 @@ function module1FillForm(from, to, adult_num, child_num, baby_num) {
         let pickDate = await driver.findElements(webdriver.By.css(".ui-datepicker-calendar td:not(.ui-state-disabled)"));
         await wait(1000);
         let randomDates = Math.floor(Math.random() * Number(pickDate.length));
-        await pickDate[1].click();
+        try {
+            await pickDate[1].click();
+        } catch(e) {
+            loseChat = await driver.findElements(webdriver.By.css(".vgc_ic.vgc_client_close_polls")); 
+            if(closeChat.length > 0) {
+                try {
+                    await closeChat[0].click();
+                } catch(e) {}
+                await wait(2000)
+            }
+            await pickDate[1].click();
+        }
         await wait(2000);
         let pickDateComeBack = await driver.findElements(webdriver.By.css("#ui-datepicker-div td:not(.ui-state-disabled)"));
         await wait(1000);
